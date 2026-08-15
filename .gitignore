@@ -16,3 +16,6 @@ desktop.ini
 *.log
 *.tmp
 .hanako/
+
+# 本仓库开发参考用，不发布
+openhanako/
