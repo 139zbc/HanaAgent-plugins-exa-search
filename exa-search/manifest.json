@@ -1,0 +1,28 @@
+{
+  "manifestVersion": 1,
+  "id": "exa-search",
+  "name": "Exa Search",
+  "version": "1.0.0",
+  "description": "Replace HanaAgent's built-in web_search (Tavily/Brave/Serper) with Exa's neural search engine. Removes web_search from the LLM tool list and registers exa_search instead, with automatic fallback to web_search when Exa fails.",
+  "trust": "full-access",
+  "minAppVersion": "0.170.0",
+  "capabilities": ["network.fetch"],
+  "network": {
+    "allowedHosts": ["api.exa.ai"],
+    "methods": ["POST"],
+    "defaultTimeoutMs": 30000,
+    "maxResponseBytes": 2097152
+  },
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "exaApiKey": {
+          "type": "string",
+          "title": "Exa API Key",
+          "description": "Get one at https://exa.ai (free tier: 1000 searches/month).",
+          "secret": true
+        }
+      }
+    }
+  }
+}
