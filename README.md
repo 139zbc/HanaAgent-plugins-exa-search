@@ -116,10 +116,6 @@ exa-search.zip → exa-search/
 
 **Q: 我的 API key 安全吗？**
 存放在 HanaAgent 加密的 config storage（`secret: true`）或本地文件（`%USERPROFILE%\.hanako\plugin-data\exa-search\api-key.txt`），**不**上传、不外泄。
-
-**Q: 能贡献给 OH-Plugins 官方市场吗？**
-等 HanaAgent 接受外部贡献后可以，目前仓库独立维护。
-
 ---
 
 ## License
