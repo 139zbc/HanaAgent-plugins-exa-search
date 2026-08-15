@@ -102,7 +102,6 @@ exa-search.zip → exa-search/
 |---|---|
 | HanaAgent | ≥ 0.170.0 |
 | 信任级别 | full-access |
-| 依赖 API | https://api.exa.ai（manifest 白名单） |
 | 运行时 | Pi SDK extension API |
 
 ---
