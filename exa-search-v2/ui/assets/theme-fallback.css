@@ -1,0 +1,48 @@
+/*
+ * 宿主主题变量兜底
+ * =================
+ *
+ * 官方控件（./app-ui.css）的样式大量引用一套宿主主题变量
+ * （--bg-card / --accent / --border / --text / --text-muted …），而且多数没有写兜底值。
+ *
+ * 这些变量由宿主主题样式表定义，那份样式表是按 `[data-theme="xxx"]` 选择器写的。
+ * 设置页是独立 iframe，拿不到主窗口的变量，所以在设置页脚本把主题属性与样式表
+ * 注入之前，`var(--border)` 之类的解析是空的——输入框会没有边框、下拉浮层会变成透明底。
+ *
+ * 下面用 Hana 默认主题 warm-paper 的真实取值补上这套变量，作为第一帧的底线。
+ * settings.js 随后会把宿主主题样式表注入 head（排在本文件之后），同优先级下后者生效，
+ * 所以真实宿主里仍会跟随用户当前主题。
+ *
+ * 必须在页面自己的布局样式之前引入。
+ */
+:root {
+  --bg: #F8F4ED;
+  --bg-card: #FCFAF5;
+  --bg-glass: rgba(250, 248, 242, 0.92);
+  --sidebar-bg: #F4F0EA;
+
+  --text: #3B3D3F;
+  --text-light: #6B6F73;
+  --text-muted: #8E9196;
+
+  --border: rgba(122, 96, 88, 0.18);
+  --border-light: rgba(122, 96, 88, 0.10);
+  --shadow: rgba(59, 61, 63, 0.09);
+
+  --accent: #537D96;
+  --accent-hover: #456A80;
+  --accent-light: rgba(83, 125, 150, 0.08);
+  --accent-rgb: 83, 125, 150;
+
+  --danger: #8B3A3A;
+  --danger-rgb: 139, 58, 58;
+  --green: #7BAE7F;
+  --green-rgb: 123, 174, 127;
+  --coral: #EC8F8D;
+  --coral-rgb: 236, 143, 141;
+
+  --overlay-subtle: rgba(0, 0, 0, 0.03);
+  --overlay-light: rgba(0, 0, 0, 0.05);
+  --overlay-medium: rgba(0, 0, 0, 0.08);
+  --overlay-strong: rgba(0, 0, 0, 0.15);
+}

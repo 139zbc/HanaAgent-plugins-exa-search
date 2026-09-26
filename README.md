@@ -6,7 +6,40 @@
 [![Version](https://img.shields.io/badge/version-v1.0.0-brightgreen)](https://github.com/139zbc/HanaAgent-plugins-exa-search/releases)
 [![API](https://img.shields.io/badge/Exa%20API-neural%20search-purple)](https://exa.ai)
 
-> 用 [Exa](https://exa.ai) 的神经搜索引擎替代 HanaAgent 内置的 `web_search`（Tavily / Brave / Serper / AnySearch），让 LLM 默认走语义搜索。
+> 用 [Exa](https://exa.ai) 的神经搜索引擎给 HanaAgent 加语义检索。
+>
+> 仓库里有**两代实现**，架构完全不同，按你的 HanaAgent 版本选一个。
+
+---
+
+## 两个版本
+
+| | v1（插件） | v2（App） |
+|---|---|---|
+| 目录 | [`exa-search/`](./exa-search/) | [`exa-search-v2/`](./exa-search-v2/) |
+| 清单 | `manifestVersion: 1` | `manifestVersion: 2` |
+| 安装到 | `%USERPROFILE%\.hanako\plugins\` | `%USERPROFILE%\.hanako\apps\` |
+| 最低版本 | HanaAgent ≥ 0.170.0 | HanaAgent ≥ 0.1050.9 |
+| 与内置搜索的关系 | **替代**：用 hook 把 `web_search` 从工具列表移除 | **共存**：注册 `exa_search`，由模型按场景自己选 |
+| 信任级别 | full-access | 按能力授权（`app/tools.expose-to-model`） |
+| 额外能力 | 无 | 自定义设置页、uBlock Origin 名单订阅、双层域名屏蔽 |
+
+**怎么选**：想让 Exa **接管**搜索、默认就走语义检索，用 v1；想保留内置 `web_search` 并在两者之间**分工**（精确事实走关键词、探索性调研走语义），用 v2。
+
+> v2 是 App 形态，走宿主公开的 v2 App 契约（`defineApp` + `ctx.tools.register`），不修改宿主工具列表，也不依赖 hook。两代互不依赖，不要同时安装同一代的重复副本。
+
+### 快速开始（v2）
+
+```bash
+# 1. 把整个 exa-search-v2 目录复制到 Hana 的应用目录：
+#    <HANA_HOME>\apps\exa-search\
+# 2. 重启 HanaAgent
+# 3. 在 市场 → 已安装 → App 类目的「待批准」里批准它
+# 4. 在 设置 → 安全 → 应用能力 打开 Exa Search 开关
+# 5. 在 设置 → 应用 → Exa Search 填 Exa API Key
+```
+
+📖 v2 详细说明（设置项、名单订阅、故障排查）→ 见 [`exa-search-v2/README.md`](./exa-search-v2/README.md)
 
 ---
 
@@ -24,7 +57,7 @@ HanaAgent 内置的 `web_search` 默认走 Tavily / Brave / Serper——这些�
 
 ---
 
-## 快速开始
+## 快速开始（v1）
 
 ```bash
 # 1. 下载最新 release
@@ -75,14 +108,24 @@ exa-search.zip → exa-search/
 .
 ├── README.md              ← 你正在看的（仓库主页）
 ├── .gitignore
-├── exa-search.zip         ← 打包好的插件（直接下载用）
-└── exa-search/            ← 插件源码
-    ├── README.md          ← 详细安装/使用文档
+├── LICENSE
+├── exa-search.zip         ← 打包好的 v1 插件（直接下载用）
+├── exa-search/            ← v1 插件源码（hook 形态）
+│   ├── README.md          ← v1 详细安装/使用文档
+│   ├── LICENSE
+│   ├── manifest.json
+│   ├── index.js
+│   ├── lib/exa-client.js
+│   └── extensions/web-search-redirect.js
+└── exa-search-v2/         ← v2 App 源码（App 形态）
+    ├── README.md          ← v2 详细文档（安装、设置、名单订阅）
     ├── LICENSE
-    ├── manifest.json
-    ├── index.js
-    ├── lib/exa-client.js
-    └── extensions/web-search-redirect.js
+    ├── manifest.json      ← manifestVersion 2
+    ├── index.js           ← 工具实现 + 后端路由
+    ├── assets/icon.svg
+    ├── ui/                ← 自定义设置页（宿主原生控件）
+    ├── sdk/               ← 随包携带的 App SDK
+    └── tests/             ← 本地行为测试
 ```
 
 ---

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exa Search 设置</title>
+<!--
+  宿主原生控件样式。必须随 app-ui.js 一起加载：控件的基础字号、间距、圆角、
+  开关规则都从这一份来，页面自己不再复制一套。
+
+  放在 ui/ 根而不是 ui/assets/：这份 CSS 内部有一处 `url(./assets/rice-paper-*.png)`，
+  是 SDK 里 `sdk/app-ui.css` 与 `sdk/assets/` 的相对关系。换位置图就找不到了，
+  而它是个官方文件，不该为了摆位置去改它。
+-->
+<link rel="stylesheet" href="./app-ui.css">
+<!--
+  宿主主题变量兜底，必须在页面自己的布局样式之前。
+  设了基础变量值，控件在主题样式表注入前也看得见边框与底色。
+-->
+<link rel="stylesheet" href="./assets/theme-fallback.css">
+<style>
+  /* 这一页是独立文档，组件库的样式表不定义页面级 token，所以底色与文字色
+     由这里给：值来自宿主注入的主题变量，兜底色是覆盖前的第一帧。 */
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+  body {
+    background: var(--bg, #F7F3EA);
+    color: var(--text, #241F1A);
+    font-family: var(--font-ui, "Segoe UI", system-ui, -apple-system, sans-serif);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  /* 页边距与栏宽由本页自己给：这里没有用宿主那个 SettingsPage 外壳，
+     所以不叠它的留白。宽度收在一个读数舒服的量上并居中，
+     免得在宽窗口里控件拉成一条。 */
+  #root {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 18px 20px 56px;
+  }
+
+  /*
+   * 把堆叠栏的分隔线补回来。
+   *
+   * 官方控件对「上下堆叠」（layout: "stacked"）的栏故意不画分隔线：
+   *   .e.b + .e::before, .e + .e.b::before { display: none }
+   * 它把堆叠栏当成一个独立的块。但本页希望每栏之间都有线，而 API Key、
+   * 域名名单、订阅链接这几栏需要占满整行（堆叠布局），所以把那条抑制规则覆盖回来。
+   *
+   * 这两条选择的特异度与上游那条持平，本可以靠“后写的赢”生效，但那依赖
+   * 样式表的先后顺序；加上 !important 就不依赖顺序了，也不怕上游以后调高特异度。
+   *
+   * 依赖说明：这里用到的是官方 CSS 的压缩类名（.e / .b），属于内部选择器，
+   * 不承诺跳版本稳定。app-ui.css 是随包分发的快照，本包内固定；升级 SDK 时
+   * 若分隔线又不见了，回来改这两行。tests/tool.test.mjs 里有一条测试守着
+   * 「上游那条抑制规则还在」，上游一变，测试先失败提醒。
+   */
+  [data-hana-app-ui] .e.b + .e::before,
+  [data-hana-app-ui] .e + .e.b::before {
+    display: block !important;
+  }
+  #boot {
+    padding: 24px 20px;
+    color: var(--text-muted, #8A8078);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+  <!-- data-hana-app-ui：host 控件只在带这个属性的子树里接管样式 -->
+  <div id="root" data-hana-app-ui></div>
+  <div id="boot">正在读取设置…</div>
+  <script type="module" src="./settings.js"></script>
+</body>
+</html>
