@@ -2,7 +2,7 @@
   "manifestVersion": 2,
   "id": "exa-search",
   "name": "Exa Search",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "entry": "index.js",
   "icon": "assets/icon.svg",
   "description": "给 Agent 加一把语义搜索：用 Exa 的神经检索按意思找，而不只是按关键词。",
