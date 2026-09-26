@@ -35,29 +35,29 @@ HanaAgent 内置的 `web_search` 走的是**关键词匹配**（Tavily / Brave /
 
 **要求：HanaAgent ≥ 0.1050.9。**
 
+不用手动解压、不用找安装目录——在扩展页把 zip 拖进去就行。
+
 ```
-1. 下载 app-exa-search-2.0.0.zip，解压到一个名为 exa-search 的文件夹
-   （zip 里直接就是应用本体，没有外层目录名，所以解压时自己建成 exa-search）
+1. 下载 app-exa-search-2.0.0.zip（不用解压）
 
-2. 把该文件夹整个放到：<HANA_HOME>\apps\exa-search\
-   HANA_HOME 通常是 C:\Users\<你>\.hanako
+2. 打开 设置 → 扩展 → 本地安装
+   把 zip 拖进「拖入包文件，或点击选择」那块区域（也可以点击选择文件）
 
-3. 重启 HanaAgent
+3. 在弹出的「确认安装」里核对权限，点「安装」
+   应看到：应用能力 app/tools.expose-to-model，网络主机 api.exa.ai、danny0838.github.io
 
-4. 在 市场 → 已安装 → App 类目的「待批准」里批准它
+4. 在 设置 → 安全 → 应用能力 打开 Exa Search 开关
 
-5. 在 设置 → 安全 → 应用能力 打开 Exa Search 开关
-
-6. 在 设置 → 应用 → Exa Search 填 Exa API Key
+5. 在 设置 → 应用 → Exa Search 填 Exa API Key
    （Key 在 dashboard.exa.ai 的 API Keys 页创建）
 ```
 
-放好后目录应直接是：`apps\exa-search\manifest.json`、`apps\exa-search\index.js`、`apps\exa-search\ui\`……**不要再嵌一层**。
+「本地安装」那个入口同时接受应用包与旧版插件包，会自动识别类型，所以不用先告诉它这是哪一种。
 
 **两个容易漏的地方：**
 
-- **第 5 步**：批准只代表装上了。要让模型能调用 `exa_search`，必须打开「应用能力」里那个开关。它默认关闭，而且宿主每次调用前都重查一遍。
-- **第 6 步**：Exa 的 REST API **没有匿名额度**，必须自备 Key。
+- **第 4 步**：第 3 步的「确认安装」只代表装上了。要让模型能主动调用 `exa_search`，还必须打开「应用能力」里那个开关。它默认关闭，而且宿主每次调用前都重查一遍——关掉立即生效。
+- **第 5 步**：Exa 的 REST API **没有匿名额度**，必须自备 Key。
 
 ---
 
@@ -166,7 +166,8 @@ v1 还要求信任级别为 `full-access`。
 |---|---|---|
 | 适用 HanaAgent | v0.450.0 及以下 | ≥ 0.1050.9 |
 | 清单 | `manifestVersion: 1` | `manifestVersion: 2` |
-| 安装到 | `.hanako\plugins\` | `.hanako\apps\` |
+| 安装方式 | 手动解压到 `.hanako\plugins\` | 设置 → 扩展 → 本地安装，拖入 zip |
+| 落在哪 | `.hanako\plugins\` | `.hanako\apps\` |
 | 与内置搜索的关系 | **替代**：移除 `web_search` | **共存**：由模型按场景自选 |
 | 信任级别 | full-access | 按能力授权（`app/tools.expose-to-model`） |
 | 设置界面 | 通用表单 | 自定义设置页 |
