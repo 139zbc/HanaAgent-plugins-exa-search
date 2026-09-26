@@ -110,7 +110,7 @@ v1 是**插件**形态，与 v2 的 App 形态架构完全不同，走的是 pi 
 ### 安装
 
 ```
-1. 下载 v1.0.0 的 exa-search.zip
+1. 从 v1.0.0 Release 下载 exa-search.zip
 2. 解压，把 exa-search 目录放到：
    %USERPROFILE%\.hanako\plugins\exa-search\
 3. 重启 HanaAgent
@@ -139,8 +139,8 @@ v1 还要求信任级别为 `full-access`。
 ├── README.md              ← 你正在看的（仓库主页）
 ├── .gitignore
 ├── LICENSE
-├── exa-search.zip         ← 打包好的 v1 插件（仅 v0.450.0 及以下需要）
 ├── exa-search/            ← v1 插件源码（hook 形态）
+│   （其可安装的 zip 在 v1.0.0 Release，不在仓库里）
 │   ├── README.md          ← v1 详细安装/使用文档
 │   ├── LICENSE
 │   ├── manifest.json
@@ -173,6 +173,7 @@ v1 还要求信任级别为 `full-access`。
 | 设置界面 | 通用表单 | 自定义设置页 |
 | 内容农场屏蔽 | 无 | uBlock Origin 名单订阅 + 双层过滤 |
 | 源代码 | [`exa-search/`](./exa-search/) | [`exa-search-v2/`](./exa-search-v2/) |
+| 可安装包 | v1.0.0 Release 的 `exa-search.zip` | v2.0.0 Release 的 `app-exa-search-2.0.0.zip` |
 
 两代互不依赖，**不要同时安装同一代的重复副本**。
 
